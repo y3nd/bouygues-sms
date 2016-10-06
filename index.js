@@ -63,7 +63,7 @@ module.exports = class {
       var numbersf = "";
       numbers.forEach((number, i) => {
         numbersf += number;
-        if((numbers.length-i) !== 1) numbersf += number;
+        if((numbers.length-i) !== 1) numbersf += ";";
       })
       numbers = numbersf;
     }
