@@ -1,0 +1,25 @@
+{
+  "name": "bouygues-sms",
+  "version": "1.0.0",
+  "description": "To use the Bouygues Telecom SMS unofficial API (5 SMS /day limitation)",
+  "main": "index.js",
+  "dependencies": {
+    "request": "^2.75.0"
+  },
+  "devDependencies": {},
+  "scripts": {
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/y3nd/bouygues-sms.git"
+  },
+  "keywords": [
+    "bouygues;bouygtel"
+  ],
+  "author": "y3n",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/y3nd/bouygues-sms/issues"
+  },
+  "homepage": "https://github.com/y3nd/bouygues-sms#readme"
+}
