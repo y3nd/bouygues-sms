@@ -3,14 +3,19 @@ Package to use the Bouygues Telecom SMS unofficial API (5 SMS /day limitation)
 
 Based on [this php script](https://rpi-florentv.zapto.org/gitlist/index.php/send-sms.git/blob/master/bouygues/bouygues.php)
 
+* ES6 (needs Node.JS >= 6.0.0)
 * 5 SMS /day
 * Quota reset at midnight
 * 160 chars count limit
 
 ## Usage
+### Installation
+```shell
+npm install bouygues-sms
+```
 ### Auth + send "Hello World!" to 0600000000
 ```javascript
-const Bouygues = require("./index.js");
+const Bouygues = require("bouygues-sms");
 var sms = new Bouygues("bouygueslogin", "bouyguespassword", 1);
 
 sms.send("Hello World!", "0600000000", () => {
