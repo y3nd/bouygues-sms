@@ -1,4 +1,6 @@
 # bouygues-sms
+[![npm version](https://badge.fury.io/js/bouygues-sms.svg)](https://badge.fury.io/js/bouygues-sms)
+[![npm](https://img.shields.io/npm/dt/bouygues-sms.svg?maxAge=2592000)]()
 Package to use the Bouygues Telecom SMS unofficial API (5 SMS /day limitation)
 
 Based on [this php script](https://rpi-florentv.zapto.org/gitlist/index.php/send-sms.git/blob/master/bouygues/bouygues.php)
