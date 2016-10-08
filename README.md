@@ -1,6 +1,6 @@
 # bouygues-sms
 [![npm version](https://badge.fury.io/js/bouygues-sms.svg)](https://badge.fury.io/js/bouygues-sms)
-[![npm](https://img.shields.io/npm/dt/bouygues-sms.svg?maxAge=2592000)]()
+[![npm](https://img.shields.io/npm/dt/bouygues-sms.svg)]()
 
 Package to use the Bouygues Telecom SMS unofficial API (5 SMS /day limitation)
 
