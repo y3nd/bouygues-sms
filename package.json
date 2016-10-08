@@ -1,6 +1,6 @@
 {
   "name": "bouygues-sms",
-  "version": "1.0.3",
+  "version": "1.1.0",
   "description": "To use the Bouygues Telecom SMS unofficial API (5 SMS /day limitation)",
   "main": "index.js",
   "dependencies": {
