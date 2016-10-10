@@ -1,24 +1,25 @@
 {
-  "name": "bouygues-sms",
-  "version": "1.1.0",
-  "description": "To use the Bouygues Telecom SMS unofficial API (5 SMS /day limitation)",
+  "name": "hp-webscan",
+  "version": "1.0.0",
+  "description": "Package to scan documents with the HP webscan unofficial API)",
   "main": "index.js",
   "dependencies": {
     "request": "^2.75.0"
   },
   "devDependencies": {},
-  "scripts": {},
+  "scripts": {
+  },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/y3nd/bouygues-sms.git"
+    "url": "git+https://github.com/y3nd/hp-webscan.git"
   },
   "keywords": [
-    "bouygues;bouygtel"
+    "hp, print, printer, scan, webscan, interface, api"
   ],
   "author": "y3n",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/y3nd/bouygues-sms/issues"
+    "url": "https://github.com/y3nd/hp-webscan/issues"
   },
-  "homepage": "https://github.com/y3nd/bouygues-sms#readme"
+  "homepage": "https://github.com/y3nd/hp-webscan#readme"
 }

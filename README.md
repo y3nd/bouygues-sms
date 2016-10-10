@@ -1,68 +1,104 @@
-# bouygues-sms
-[![npm version](https://badge.fury.io/js/bouygues-sms.svg)](https://badge.fury.io/js/bouygues-sms)
-[![npm](https://img.shields.io/npm/dt/bouygues-sms.svg)]()
+# hp-webscan
+[![npm version](https://badge.fury.io/js/hp-webscan.svg)](https://badge.fury.io/js/hp-webscan)
+[![npm](https://img.shields.io/npm/dt/hp-webscan.svg)]()
 
-Package to use the Bouygues Telecom SMS unofficial API (5 SMS /day limitation)
+Package to scan documents with the HP webscan unofficial API
 
-Uses calls from [this page](https://www.secure.bbox.bouyguestelecom.fr/services/SMSIHD/sendSMS.phtml), and based on [this php script](https://rpi-florentv.zapto.org/gitlist/index.php/send-sms.git/blob/master/bouygues/bouygues.php)
+Uses calls from printer's web interface (port 80)
 
 * ES6 (needs Node.JS >= 6.0.0)
-* 5 SMS /day
-* Quota reset at midnight
-* 160 chars limit (message is truncated after the limit)
+* Choose format and size
+* Fast
 * Error(s) management
-* Only ≈125 lines
+* Only ≈65 lines
 
 ## Usage
+**Please see [notes](#notes) before using this module**
 ### Installation
 ```shell
-npm install bouygues-sms
+npm install hp-webscan
 ```
-### Auth + send "Hello World!" to 0600000000
+### Scan a document
 ```javascript
-const Bouygues = require("bouygues-sms");
-var sms = new Bouygues("bouygueslogin", "bouyguespassword", 1); // 3rd argument is for debug log (1 for enabled, 0 for disabled)
+const Webscan = require("hp-webscan");
+const fs = require("fs");
 
-sms.send("Hello World!", "0600000000", (error) => {
+var ws = new Webscan("printer's hostname/ip", 1);
+
+// See type, fmt, size definitions below
+ws.scan({ type: 4, fmt: 1, size: 2 }, (data, error) => {
   if(error) {
-    console.log("An error occured: " + error.code)
-  } else {
-    console.log("success");
+    console.log("an error occured: " + error.code)
   }
-});
-```
-### Get quota left
-**Left quota is checked at sms sending, no need to double check it (_don't put a sms.send in the getQuota callback_)**
-```javascript
-sms.getQuota((quota, error) => {
-  if(error) {
-    console.log("An error occured: " + error.code)
-  } else {
-    console.log(quota + " sms left today");
+  else {
+    // Do whatever you want with the binary data
+    // Here we write the document on disk using fs
+    fs.writeFile(__dirname + "/scan.jpg", data, "binary", (err) => {
+      if(err) {
+        return console.log(err);
+      }
+      else console.log("Document successfully scanned and saved!")
+    });
   }
 })
 ```
-### Send to multiple numbers (up to 5)
+### Get a preview (much faster than a scan)
 ```javascript
-sms.send("Hello World!", ["0600000001", "0600000002", "0600000003", "0600000004", "0600000005"], (error) => {
+ws.preview({ type: 2 }, (data, error) => {
   if(error) {
-    console.log("An error occured: " + error.code)
-  } else {
-    console.log("success");
+    console.log("an error occured: " + error.code)
   }
-});
+  else {
+    // Do whatever you want with data
+    // Here we write the document on disk
+    fs.writeFile(__dirname + "/preview.jpg", data, "binary", (err) => {
+      if(err) {
+        return console.log(err);
+      }
+    });
+  }
+})
 ```
+### Types
+| ID | Value                     |
+|:--:|:-------------------------:|
+| 1  | Text (black and white)    |
+| 2  | Picture (black and white) |
+| 3  | Drawing (colored)         |
+| 4  | Picture (colored)         |
+### Sizes
+| ID | Value                  |
+|:--:|:----------------------:|
+| 0  | Letter                 |
+| 1  | Executive              |
+| 2  | A4(8.27x11.69")‎        |
+| 3  | 10.16x15.24 cm. (4x6")‎ |
+| 4  | 12.7X17.78 cm. (5x7")  |
+| 5  | 7.6x12.7 cm. (3x5")‎    |
+| 6  | 7.6x7.6 cm. (3x3")‎     |
+### Formats
+| ID | Value                                    |
+|:--:|:----------------------------------------:|
+| 1  | image/jpeg                               |
+| 2  | application/pdf (**crashes my printer**) |
 ### Error codes
-| Code             | Meaning                                                                    |
-|:----------------:|:--------------------------------------------------------------------------:|
-| LOGIN_UNKNOWN    | Login page has changed or Bouygues services are down                       |
-| LOGIN_WRONG      | Credentials are wrong                                                      |
-| QUOTA_EXCEEDED   | Quota is exceeded and SMS can't be sent                                    |
-| ERROR_GETQUOTA   | Error getting quota, page has changed or Bouygues services are down        |
-| SMS_CONFIRMATION | Error at SMS confirmation, page has changed or Bouygues services are down  |
-| SMS_RESULT       | Error at SMS result, page has changed or Bouygues services are down        |
+| Code             | Meaning                                               |
+|:----------------:|:-----------------------------------------------------:|
+| WS_STATUS        | Webinterface can't be reached or version incompatible |
+| GET_SCAN         | Cannot download the scanned document                  |
+| GET_PREVIEW      | Cannot download the previewed document                |
 
 ### Notes
-* **I'm NOT affiliated with Bouygues Telecom or one of its branches**
-* This module may not work if Bouygues change the service, then **please report it by creating an issue**
-* Emojis chars are replaced by a "?" by the Bouygues server ...
+* **I'm NOT affiliated with Hewlett Packard/HP or one of its branches**
+* You could combine this module with node-tesseract to make a powerful ocr-scanner
+* This module may not work on another version than mine, I have this one:
+![mine](https://cloud.githubusercontent.com/assets/18102153/19221433/f3151f14-8e43-11e6-8d68-ce87e7e7e0b7.PNG)
+
+| Name             | Value                                    |
+|:----------------:|:----------------------------------------:|
+| Product Name	   | HP Deskjet F4500 series                  |
+| Product Model    | Number	CB755B                            |
+| Product Serial   | Number	CN9CIB218Z05H5                    |
+| Service ID       | 20090                                    |
+| Printer ID       | 4                                        |
+| Firmware Version | MPxxFN0937AR                             |
