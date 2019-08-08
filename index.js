@@ -12,7 +12,7 @@ module.exports = class {
     this.log("Authenticating..")
     this.req("GET", "https://www.mon-compte.bouyguestelecom.fr/cas/login", {}, (response, body) => {
 
-      var jsessionid = response.headers["set-cookie"][0].match(/JSESSIONID=(.*); Path=\/cas\/; HttpOnly/)
+      var jsessionid = response.headers["set-cookie"][1].match(/JSESSIONID=(.*); Path=\/cas\/; HttpOnly/)
       var lt = body.match(/<input type=\"hidden\" name=\"lt\" value=\"([a-zA-Z0-9_-]*)\"/);
 
       if(jsessionid == null && lt == null) cb({ code: "LOGIN_UNKNOWN" });
